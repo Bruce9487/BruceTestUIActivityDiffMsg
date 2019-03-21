@@ -8,13 +8,32 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CustomActivityItemProvider: UIActivityItemProvider
+{
+    override var item: Any{
+        switch self.activityType!
+        {
+        case UIActivity.ActivityType.postToFacebook:
+            return "https://tw.yahoo.com"
+        default:
+            return "其他分享 https://tw.google.com"
+        }
+    }
+}
 
+class ViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-
+    @IBAction func activityBtnClicked(_ sender: Any) {
+        
+        let activityItem = CustomActivityItemProvider(placeholderItem: "")
+        let activityViewController = UIActivityViewController(activityItems: [activityItem], applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
 }
 
